@@ -24,19 +24,19 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','alpha','max:100'],
-            'email' => ['required','email'],
-            'password' =>['required'],
+            'name'     => 'required|alpha',
+            'email'    => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed',
         ];
     }
 
     public function messages(){
         return[
             'name.required' => 'The name cannot be null',
-            'name.alpha' => 'The cannot have numbers',
-            'name.max' => 'The must be less that 100 characters',
+            'name.alpha' => 'The name cannot have numbers',
             'email.required' => 'The email cannot be null',
             'email.email' => 'The email must be a real email address',
+            'unique:users' => 'This email has been taken',
             'password.required' => 'the password cannot be null',
         ];
     }

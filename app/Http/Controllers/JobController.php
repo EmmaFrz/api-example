@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-   public function index(){
+   public function index()
+   {
    		$job = Job::orderBy('id','desc')->get();
    		$job->load('user');
    		return $job;
@@ -19,7 +20,8 @@ class JobController extends Controller
    		return $job;		
    }
 
-   public function store(CreateJobRequest $request){
+   public function store(CreateJobRequest $request)
+   {
    		try {
    			$job = Job::create([
    				'name' => $request->input('name'),
@@ -37,16 +39,18 @@ class JobController extends Controller
     		$response['status'] = false;
             $response['message'] = $ex->getMessage();
             return response($response, 500);
-    	}
+    	   }
    }
 
-   public function update(Request $request, Job $job){
+   public function update(Request $request, Job $job)
+   {
    		$job->update($request->all());
 
    		return response()->json($job,200);
    }
 
-   public function delete(Job $job){
+   public function delete(Job $job)
+   {
    		$job->delete();
    		
    		return $job;	
