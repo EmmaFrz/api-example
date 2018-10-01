@@ -32,8 +32,8 @@ class AuthController extends Controller
     {
 
         $credentials = request(['email', 'password']);
-        $credentials['activate'] = 1;
-        $credentials['delete_at'] = null;
+        $credentials['active'] = 1;
+        $credentials['deleted_at'] = null;
 
         if (Auth::attempt($credentials)) 
         {
