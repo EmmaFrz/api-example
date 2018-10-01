@@ -25,7 +25,15 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-
+//Password
+Route::group([       
+    'middleware' => 'api',    
+    'prefix' => 'password'
+], function () {    
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
 
 //Users 
 Route::get('/users/all','UserController@index');
