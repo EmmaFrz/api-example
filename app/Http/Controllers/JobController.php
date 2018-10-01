@@ -27,7 +27,7 @@ class JobController extends Controller
    				'name' => $request->input('name'),
    				'description' => $request->input('description'),
    				'price' => $request->input('price'),
-   				'user_id' => '5'
+   				'user_id' => $request->user()->id,
    			]);
 
    		$response['status'] = true;
