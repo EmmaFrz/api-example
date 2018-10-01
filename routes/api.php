@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('signup', 'AuthController@signup');
+    Route::get('signup/activate/{token}','AuthController@signupactivate');
   
    Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', 'AuthController@logout');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Notifications\SignupActivate; 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
@@ -15,11 +16,14 @@ class AuthController extends Controller
 
     public function signup(CreateUserRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'activation_token' => str_random(60),
         ]);
+
+        $user->notify(new SignupActivate($user));
 
         return response()->json(['message' => 'Successfully created user!'], 201);
     }
@@ -28,6 +32,8 @@ class AuthController extends Controller
     {
 
         $credentials = request(['email', 'password']);
+        $credentials['activate'] = 1;
+        $credentials['delete_at'] = null;
 
         if (Auth::attempt($credentials)) 
         {
@@ -72,5 +78,20 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return $request->user();
+    }
+
+    public function signupactivate($token)
+    {
+        $user = User::where('activation_token', $token)->first();
+
+        if ($user) {
+            $user->active = true;
+            $user->activation_token = '';
+            $user->save();
+            return response()->json(['message' => 'Validation is correct thanks :D','user' => $user,201]);
+        } else {
+            return response()->json(['message' => 'The validation token is not correct', 403]);
+        }
+        
     }
 }
