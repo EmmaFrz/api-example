@@ -21,8 +21,8 @@ class JobController extends Controller
    }
 
    public function store(CreateJobRequest $request)
-   {
-   		try {
+   {	 
+         try {
    			$job = Job::create([
    				'name' => $request->input('name'),
    				'description' => $request->input('description'),

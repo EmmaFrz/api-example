@@ -29,4 +29,15 @@ class CreateLoginRequest extends FormRequest
             'remember_me' => 'boolean',
         ];
     }
+
+
+    public function messages()
+    {
+        return[
+            'email.required' => 'The email cannot be null',
+            'email.email' => 'The email must be a real email address',
+            'password.required' => 'the password cannot be null',
+            'remember_me.boolean' => 'remember me must be boolean'
+        ];
+    }
 }
