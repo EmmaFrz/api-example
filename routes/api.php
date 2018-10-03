@@ -44,6 +44,10 @@ Route::get('/users/{user}','UserController@show');
 Route::get('/jobs','JobController@index');
 Route::get('/jobs/{job}','JobController@show');
 
+//Categories
+Route::get('/category','CategoryController@index');
+Route::get('/category/{category}','CategoryController@show');
+
 //Only with login
 Route::group(['middleware' => 'auth:api'],function(){
 	//Jobs
@@ -53,4 +57,8 @@ Route::group(['middleware' => 'auth:api'],function(){
 	//Users
 	Route::delete('/users/delete/{user}','UserController@delete');
 	Route::put('/users/update/{user}','UserController@update');
+    //Categories
+    Route::post('/category/new','CategoryController@store');
+    Route::delete('/category/delete/{category}','CategoryController@delete');
+    Route::put('/category/update/{category}','CategoryController@update');
 });
