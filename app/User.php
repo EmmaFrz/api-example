@@ -17,7 +17,7 @@ class User extends Authenticatable
     *Para ser tipo date
     */
 
-    protected $date = ['delete_at'];
+    protected $date = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
      *
@@ -33,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','activation_token','active'
+        'password', 'remember_token','activation_token','active','deleted_at'
     ];
 
 
