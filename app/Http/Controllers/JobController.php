@@ -10,12 +10,12 @@ class JobController extends Controller
    public function index()
    {
    		$job = Job::orderBy('id','desc')->get();
-   		$job->load('user');
+   		$job->load('user','category');
    		return $job;
    }
 
    public function show (Job $job){
-   		$job->load('user');
+   		$job->load('user','category');
 
    		return $job;		
    }
@@ -28,6 +28,7 @@ class JobController extends Controller
    				'description' => $request->input('description'),
    				'price' => $request->input('price'),
    				'user_id' => $request->user()->id,
+               'category_id' => $request->input('category')
    			]);
 
    		$response['status'] = true;

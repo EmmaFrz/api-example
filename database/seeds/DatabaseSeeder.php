@@ -13,9 +13,12 @@ class DatabaseSeeder extends Seeder
     {
         $users = factory(App\User::class,10)->create();
 
+        $categories = factory(App\Category::class,10)->create();
+
         $users->each(function(App\User $user) use ($users){
         	factory(App\Job::class, 5)->create([
         		'user_id' => $user->id,
+                'category_id' => random_int(1, 10),
         	]);
         });
     }

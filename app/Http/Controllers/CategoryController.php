@@ -12,8 +12,9 @@ class CategoryController extends Controller
 
     public function index()
     {
-    	return Category::orderBy('id','desc')->get();
-    	//$category->load('jobs');
+    	$category = Category::orderBy('id','desc')->get();
+    	return $category->load('jobs');
+
     }
 
     public function store(CreateCategoryRequest $request)
