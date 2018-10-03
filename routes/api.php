@@ -25,7 +25,7 @@ Route::group(['prefix' => 'auth'], function () {
     });
 });
 
-//Password
+//Password Reset
 Route::group([       
     'middleware' => 'api',    
     'prefix' => 'password'
@@ -44,7 +44,7 @@ Route::get('/users/{user}','UserController@show');
 Route::get('/jobs','JobController@index');
 Route::get('/jobs/{job}','JobController@show');
 
-
+//Only with login
 Route::group(['middleware' => 'auth:api'],function(){
 	//Jobs
 	Route::post('/jobs/new','JobController@store');
