@@ -38,9 +38,9 @@ class CategoryController extends Controller
     	return $category;
     }
 
-    public function update(Category $category, Request $request){
-    	$category->update($request->all());
-
+    public function update(Category $category, Request $request)
+    {	
+        $category->update($request->all());
     	return response()->json($category,201);
     }
 }

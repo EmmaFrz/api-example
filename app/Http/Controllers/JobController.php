@@ -45,16 +45,29 @@ class JobController extends Controller
 
    public function update(Request $request, Job $job)
    {
-   		$job->update($request->all());
-
-   		return response()->json($job,200);
+   		if($job->user_id == $request->user()->id){
+            
+            $job->update($request->all());
+      
+      		return response()->json($job,200);
+         }else{
+            return response()->json([
+               'message' => 'User not allowed'
+            ],401);
+         }
    }
 
-   public function delete(Job $job)
+   public function delete(Request $request, Job $job)
    {
-   		$job->delete();
-   		
-   		return $job;	
+   		if($job->user_id == $request->user()->id)
+         {
+            $job->delete();
+   		   return $job;
+         }else{
+            return response()->json([
+               'message' => 'user not allowed'
+            ],401);
+         }
    }
 
 }
