@@ -12,7 +12,7 @@ class UserController extends Controller
     //CRUD PARAMETERS, 
     public function index()
     {
-        $user = User::orderBy('id','desc')->get();
+        $user = User::orderBy('id','desc')->paginate(10);
         $user->load('jobs','reviews');
 
         return $user;

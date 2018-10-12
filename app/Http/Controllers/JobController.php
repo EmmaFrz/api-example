@@ -10,7 +10,7 @@ class JobController extends Controller
 {
    public function index()
    {
-   		$job = Job::orderBy('id','desc')->get();
+   		$job = Job::orderBy('id','desc')->paginate(10);
    		$job->load('user','category','reviews');
    		return $job;
    }
