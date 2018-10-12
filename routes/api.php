@@ -61,4 +61,6 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::post('/category/new','CategoryController@store');
     Route::delete('/category/delete/{category}','CategoryController@delete');
     Route::put('/category/update/{category}','CategoryController@update');
+    //Reviews
+    Route::post('/reviews/new','ReviewController@create');
 });

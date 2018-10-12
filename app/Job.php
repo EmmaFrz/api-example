@@ -4,6 +4,7 @@ namespace App;
 
 use App\Category;
 use App\Job;
+use App\Review;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,9 @@ class Job extends Model
 
 	public function category(){
 		return $this->belongsTo(Category::class);
+	}
+
+	public function reviews(){
+		return $this->hasMany(Review::class);
 	}
 }

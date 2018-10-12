@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => random_int(1, 10),
         	]);
         });
+
+        $reviews = factory(App\Review::class,30)->create();
     }
 }

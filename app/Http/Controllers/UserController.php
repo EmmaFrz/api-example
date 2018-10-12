@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\User;
+use App\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,14 +13,14 @@ class UserController extends Controller
     public function index()
     {
         $user = User::orderBy('id','desc')->get();
-        $user->load('jobs');
+        $user->load('jobs','reviews');
 
         return $user;
     }
 
     public function show(User $user)
     {
-        $user->load('jobs');
+        $user->load('jobs','reviews');
 
         return $user;   
     }

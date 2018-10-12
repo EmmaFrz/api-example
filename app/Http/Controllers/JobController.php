@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Job;
+use App\Review;
 use App\Http\Requests\CreateJobRequest;
 use Illuminate\Http\Request;
 
@@ -10,12 +11,12 @@ class JobController extends Controller
    public function index()
    {
    		$job = Job::orderBy('id','desc')->get();
-   		$job->load('user','category');
+   		$job->load('user','category','reviews');
    		return $job;
    }
 
    public function show (Job $job){
-   		$job->load('user','category');
+   		$job->load('user','category','reviews');
 
    		return $job;		
    }
