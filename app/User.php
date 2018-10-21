@@ -2,6 +2,7 @@
 
 namespace App;
 
+use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens,Notifiable, SoftDeletes;
+    use HasApiTokens,Notifiable, SoftDeletes,HasRoleAndPermission;
 
     /**
     * Los atributos agregados son validados por carbon 

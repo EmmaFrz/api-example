@@ -46,6 +46,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $userLevelCheck = $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\RoleDeniedException ||
+        $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\RoleDeniedException ||
+        $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\PermissionDeniedException ||
+        $exception instanceof \jeremykenedy\LaravelRoles\Exceptions\LevelDeniedException;
+        if ($userLevelCheck) {
+            if ($request->expectsJson()) {
+                return response()->json(
+                    [
+                    'error'    =>  403,
+                    'message'   =>  'You do not have permission to do this action.'
+                    ], 403);
+            }
+            abort(403);
+        }
         return parent::render($request, $exception);
     }
+
+
 }

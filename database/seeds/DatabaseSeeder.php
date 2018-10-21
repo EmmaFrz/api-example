@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,5 +24,14 @@ class DatabaseSeeder extends Seeder
         });
 
         $reviews = factory(App\Review::class,30)->create();
+
+         Model::unguard();
+
+            $this->call('PermissionsTableSeeder');
+            $this->call('RolesTableSeeder');
+            $this->call('ConnectRelationshipsSeeder');
+            //$this->call('UsersTableSeeder');
+
+        Model::reguard();
     }
 }
