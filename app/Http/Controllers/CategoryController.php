@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCategoryRequest;
 use App\Category;
 use Illuminate\Http\Request;
 
+
 class CategoryController extends Controller
 {
 

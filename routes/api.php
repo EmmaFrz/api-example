@@ -26,10 +26,7 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 //Password Reset
-Route::group([       
-    'middleware' => 'api',    
-    'prefix' => 'password'
-], function () {    
+Route::group(['middleware' => 'api', 'prefix' => 'password'], function () {    
     Route::post('create', 'PasswordResetController@create');
     Route::get('find/{token}', 'PasswordResetController@find');
     Route::post('reset', 'PasswordResetController@reset');
@@ -58,9 +55,9 @@ Route::group(['middleware' => 'auth:api'],function(){
 	Route::delete('/users/delete/{user}','UserController@delete');
 	Route::put('/users/update/{user}','UserController@update');
     //Categories
-    Route::post('/category/new','CategoryController@store');
-    Route::delete('/category/delete/{category}','CategoryController@delete');
-    Route::put('/category/update/{category}','CategoryController@update');
+    Route::post('/category/new','CategoryController@store')->middleware('role:admin');;
+    Route::delete('/category/delete/{category}','CategoryController@delete')->middleware('role:admin');;
+    Route::put('/category/update/{category}','CategoryController@update')->middleware('role:admin');;
     //Reviews
     Route::post('/reviews/new','ReviewController@create');
 });

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\Review;
 use App\Http\Requests\CreateJobRequest;
+use jeremykenedy\LaravelRoles\Models\Role;
+use jeremykenedy\LaravelRoles\Models\Permission;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -11,7 +13,7 @@ class JobController extends Controller
    public function index()
    {
    		$job = Job::orderBy('id','desc')->paginate(10);
-   		$job->load('user','category','reviews');
+   		$job->load('user','category');
    		return $job;
    }
 
@@ -46,7 +48,7 @@ class JobController extends Controller
 
    public function update(Request $request, Job $job)
    {
-   		if($job->user_id == $request->user()->id){
+   		if($job->user_id == $request->user()->id || $request->user()->hasRole('admin')){
             
             $job->update($request->all());
       
@@ -60,7 +62,7 @@ class JobController extends Controller
 
    public function delete(Request $request, Job $job)
    {
-   		if($job->user_id == $request->user()->id)
+   		if($job->user_id == $request->user()->id || $request->user()->hasRole('admin'))
          {
             $job->delete();
    		   return $job;
