@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordResetsTable extends Migration
+class AddJobsIdColumnToReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamps();
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->integer('job_id')->unsigned();
+
+            $table->foreign('job_id')->references('id')->on('jobs');
         });
     }
 
@@ -27,6 +27,8 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->dropForeign('reviews_job_id_foreign');
+        });
     }
 }

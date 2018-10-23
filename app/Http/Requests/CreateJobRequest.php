@@ -26,7 +26,7 @@ class CreateJobRequest extends FormRequest
         return [
             'name' => ['required','string','max:50'],
             'description' => ['required','max:240'],
-            'price' => ['required','integer','max:10'],
+            'price' => ['required','integer'],
         ];
     }
 

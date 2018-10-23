@@ -13,21 +13,51 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Authentication
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('signup', 'AuthController@signup');
+    Route::get('signup/activate/{token}','AuthController@signupactivate');
+  
+   Route::group(['middleware' => 'auth:api'], function() {
+        Route::post('logout', 'AuthController@logout');
+        Route::post('user', 'AuthController@user');
+    });
 });
 
+//Password Reset
+Route::group(['middleware' => 'api', 'prefix' => 'password'], function () {    
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
 
-//User 
-Route::get('/users','UserController@index');
+//Users 
+Route::get('/users/all','UserController@index');
 Route::get('/users/{user}','UserController@show');
-Route::post('/users/new','UserController@store');
-Route::delete('/users/delete/{user}','UserController@delete');
-Route::put('/users/update/{user}','UserController@update');
+
 
 //Jobs
 Route::get('/jobs','JobController@index');
 Route::get('/jobs/{job}','JobController@show');
-Route::post('/jobs/new','JobController@store');
-Route::put('/jobs/update/{job}','JobController@update');
-Route::delete('/jobs/delete/{job}','JobController@delete');
+
+//Categories
+Route::get('/category','CategoryController@index');
+Route::get('/category/{category}','CategoryController@show');
+
+//Only with login
+Route::group(['middleware' => 'auth:api'],function(){
+	//Jobs
+	Route::post('/jobs/new','JobController@store');
+	Route::put('/jobs/update/{job}','JobController@update');
+	Route::delete('/jobs/delete/{job}','JobController@delete');	
+	//Users
+	Route::delete('/users/delete/{user}','UserController@delete');
+	Route::put('/users/update/{user}','UserController@update');
+    //Categories
+    Route::post('/category/new','CategoryController@store')->middleware('role:admin');;
+    Route::delete('/category/delete/{category}','CategoryController@delete')->middleware('role:admin');;
+    Route::put('/category/update/{category}','CategoryController@update')->middleware('role:admin');;
+    //Reviews
+    Route::post('/reviews/new','ReviewController@create');
+});

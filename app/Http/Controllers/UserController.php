@@ -2,54 +2,54 @@
 
 namespace App\Http\Controllers;
 use App\User;
+use App\Review;
 use Illuminate\Http\Request;
-use App\Http\Requests\CreateUserRequest;
+use jeremykenedy\LaravelRoles\Models\Role;
+use jeremykenedy\LaravelRoles\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(){
-    	$user = User::orderBy('id','desc')->get();
-        $user->load('jobs');
+   
+    //CRUD PARAMETERS, 
+    public function index()
+    {
+        $user = User::orderBy('id','desc')->paginate(10);
+        $user->load('jobs','reviews');
 
         return $user;
     }
 
-    public function show(User $user){
-    	$user->load('jobs');
+    public function show(User $user)
+    {
+        $user->load('jobs','reviews');
 
-        return $user;	
+        return $user;   
     }
 
-    public function store(CreateUserRequest $request){
-    	try {
-        	$user = User::create([
-        		'name' => $request->input('name'),
-        		'email' => $request->input('email'),
-        		'password' => Hash::make($request->input('password')),
-        	]);
 
-        $response['status'] = true;
-        $response['message'] = 'Success';
-
-        return response()->json($user,201);    		
-    	} catch (\Illuminate\Database\QueryException $ex) {
-    		$response['status'] = false;
-            $response['message'] = $ex->getMessage();
-            return response($response, 500);
-    	}
+    public function delete(User $user)
+    {
+        if($job->user_id == $request->user()->id || $request->user()->hasRole('admin')){
+        	$user->delete();
+        	return $user;
+        }else{
+            return response()->json([
+                'message' => 'You do not allowed to do this action'
+            ],403);
+        }
     }
 
-    public function delete(User $user){
-    	$user->delete();
-
-    	return $user;
-    }
-
-    public function update(Request $request, User $user){
-        $user->update($request->all());
-
-        return response()->json($user,200);
-    }
+    public function update(Request $request, User $user)
+    {
+        if($job->user_id == $request->user()->id || $request->user()->hasRole('admin')){
+            $user->update($request->all());      
+            return response()->json($user,200);
+        }else{
+            return response()->json([
+                'message' => 'You do not allowed to do this action'
+            ],403);
+        }
+    }    
 
 }
